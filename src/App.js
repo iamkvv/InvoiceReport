@@ -23,6 +23,7 @@ import axios from 'axios'
 
 
 /**
+ * http://recharts.org/en-US/examples/StackedBarChart
  * zip_dist.js в .bin
  * //https://github.com/Mostafa-Samir/zip-local;
 var zipper = require('zip-local');
