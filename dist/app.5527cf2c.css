@@ -1,0 +1,74 @@
+html, body, #app {
+  height: 100%;
+}
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  width: 98%;
+  margin: 0 auto;
+  /* height: 100%; */
+  
+height:auto;
+
+   min-height: 1000px; 
+   text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: stretch;
+      -ms-flex-pack: stretch;
+          justify-content: stretch; 
+}
+.App-react {
+  color: #00d8ff;
+  text-decoration: overline underline;
+}
+
+.App-logo {
+  -webkit-animation: App-logo-spin infinite 20s linear;
+          animation: App-logo-spin infinite 20s linear;
+  height: 5vmin;
+  margin-bottom: 5px;
+}
+
+@-webkit-keyframes App-logo-spin {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+.repofr-header{
+  background-color: whitesmoke;
+}
+.repofr-title{
+  color:blue;
+ letter-spacing: 1px;
+}
+.ant-tabs-nav-container{
+  text-align: left;
+}
+

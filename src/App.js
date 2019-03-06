@@ -1,5 +1,9 @@
 import './App.css'
 import React, { Component } from 'react'
+import { LocaleProvider } from 'antd';
+import ruRU from 'antd/lib/locale-provider/ru_RU';
+
+
 //import { resizeWindow } from './BXMethods'
 import { getAllInvoices } from './BXMethods'
 
@@ -11,7 +15,7 @@ import { Layout, BackTop } from 'antd';
 // import Leads from './components/leads'
 // import User from './components/user'
 // import Report from './components/report'
-import Repofr from './components/repofr'
+import InvoiceReport from './components/invReport'
 
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import axios from 'axios'
@@ -32,15 +36,12 @@ class App extends Component {
   };
 
   componentDidMount() {
-    let r = document.getElementById('repfr')
+    let r = document.getElementById('invrep')
+    this.simulateClick(r);
 
     var obj = BX24.getAuth();
-
     console.log("access_token", obj.access_token);
 
-
-
-    // this.simulateClick(r);
 
     // let el = document.getElementById('react-app')
     // let w = el.scrollWidth;
@@ -57,26 +58,10 @@ class App extends Component {
     //   })
 
 
-    getAllInvoices().then(response => {
-      console.log("RRRR", response)
-    })
+    // getAllInvoices().then(response => {
+    //   console.log("RRRR", response)
+    // })
 
-
-
-    //console.log("x", x)
-
-
-    // let req = `https://its74.bitrix24.ru/rest/crm.invoice.list.json?auth=${obj.access_token}`
-
-    // console.log('req', req)
-
-    // axios.get(req)
-    //   .then(response => {
-    //     console.log("from axios", response)
-    //   })
-    //   .catch(err => {
-    //     console.log(err)
-    //   })
 
   }
 
@@ -87,22 +72,23 @@ class App extends Component {
 
     return (
       <Router>
-        <div id="react-app" className="App">
+        <LocaleProvider locale={ruRU}>
+          <div id="react-app" className="App">
 
-          <Layout>
+            <Layout>
 
-            {/* <Header className='repofr-header'>
+              {/* <Header className='repofr-header'>
               <h2 className='repofr-title'> Аналитические отчеты </h2>
                <h2 className="App-react"> <span >Bitrix24</span>
                 <img className="App-logo" src='react.svg' />
                 <span>React</span>
               </h2> 
               </Header> */}
-            <Layout>
-              <Sider style={{ backgroundColor: '#535c69' }}>
-                <div>
-                  <ul style={{ listStyle: 'none', padding: '0px', textAlign: 'center', marginTop: '20px', marginLeft: '0px' }}>
-                    {/* <li>
+              <Layout>
+                <Sider style={{ backgroundColor: '#535c69' }}>
+                  <div>
+                    <ul style={{ listStyle: 'none', padding: '0px', textAlign: 'center', marginTop: '20px', marginLeft: '0px' }}>
+                      {/* <li>
                       <Link style={{ color: '#00d8ff' }} to="/">Список лидов</Link>
                     </li>
                     <li>
@@ -115,31 +101,32 @@ class App extends Component {
                       <Link style={{ color: '#00d8ff' }} to="/report/">Отчет</Link>
                     </li> */}
 
-                    <li>
-                      <Link id="repfr" style={{ color: '#2fc6f7', fontSize: '16px' }} to="/repofr/">Активность менеджеров</Link>
-                    </li>
+                      <li>
+                        <Link id="invrep" style={{ color: '#2fc6f7', fontSize: '16px' }} to="/InvoiceReport/">Отчет по счетам</Link>
+                      </li>
 
-                  </ul>
-                </div>
-              </Sider>
-              <Content>
-                <div>
+                    </ul>
+                  </div>
+                </Sider>
+                <Content>
+                  <div>
 
-                  {/* <Route path="/" exact component={Leads} />
+                    {/* <Route path="/" exact component={Leads} />
                   <Route path="/currencies/" component={CurrMessage} />
                   <Route path="/user/" component={User} />
                   <Route path="/report/" component={Report} /> */}
 
-                  <Route exact path="/repofr/" component={Repofr} />
+                    <Route exact path="/InvoiceReport/" component={InvoiceReport} />
 
-                </div>
-              </Content>
+                  </div>
+                </Content>
+              </Layout>
+              <Footer>
+                <h3>Оливит 2019</h3>
+              </Footer>
             </Layout>
-            <Footer>
-              <h3>Оливит 2019</h3>
-            </Footer>
-          </Layout>
-        </div>
+          </div>
+        </LocaleProvider>
       </Router >
     )
   }

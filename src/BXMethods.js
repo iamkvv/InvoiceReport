@@ -9,16 +9,18 @@ export const resizeWindow = (w, h) => {
 
 let arr = [];
 
-export const getAllInvoices = (startpos) => {
+export const getAllInvoices = (startpos, startdate, enddate) => {
     let tkn = BX24.getAuth(); //вынести из функции
+    let addr = 'https://its74.bitrix24.ru/rest/crm.invoice.list.json'
+    let req = `${addr}?auth=${tkn.access_token}${startpos ? '&start=' + startpos : ''}&FILTER[>DATE_BILL]=${startdate}&FILTER[<DATE_BILL]=${enddate}`
 
-    let req = `https://its74.bitrix24.ru/rest/crm.invoice.list.json?auth=${tkn.access_token}${startpos ? '&start=' + startpos : ''}`
+console.log("REQ",req)
 
     return axios.get(req)
         .then(response => {
             if (response.data.next) {
                 arr = arr.concat(response.data.result)
-                return getAllInvoices(response.data.next)
+                return getAllInvoices(response.data.next, startdate, enddate)
             } else {
                 arr = arr.concat(response.data.result)
                 return arr
