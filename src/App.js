@@ -21,6 +21,15 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import axios from 'axios'
 
 
+
+/**
+ * zip_dist.js в .bin
+ * //https://github.com/Mostafa-Samir/zip-local;
+var zipper = require('zip-local');
+zipper.sync.zip("./dist").compress().save("./dist/pack.zip");
+console.info("Program Ended")
+ */
+
 class App extends Component {
 
   simulateClick = function (elem) {
