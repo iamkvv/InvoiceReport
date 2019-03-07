@@ -10,7 +10,7 @@ import { getAllInvoices } from './BXMethods'
 
 
 import { Layout, BackTop } from 'antd';
-// import CurrMessage from './components/message'
+import CurrMessage from './components/message'
 
 // import Leads from './components/leads'
 // import User from './components/user'
@@ -115,6 +115,11 @@ class App extends Component {
                         <Link id="invrep" style={{ color: '#2fc6f7', fontSize: '16px' }} to="/InvoiceReport/">Отчет по счетам</Link>
                       </li>
 
+                      <li>
+                        <Link style={{ color: '#00d8ff' }} to="/currencies/">Курс доллара</Link>
+                      </li>
+
+
                     </ul>
                   </div>
                 </Sider>
@@ -127,6 +132,7 @@ class App extends Component {
                   <Route path="/report/" component={Report} /> */}
 
                     <Route exact path="/InvoiceReport/" component={InvoiceReport} />
+                    <Route path="/currencies/" component={CurrMessage} />
 
                   </div>
                 </Content>

@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Card, Button } from 'antd';
 import { sendMessage } from '../BXMethods'
+import { sendToLenta } from '../BXMethods'
+
 import { getRate } from '../outMehods'
 
 //https://openexchangerates.org/account/app-ids
@@ -19,8 +21,18 @@ class CurrMessage extends Component {
     }
 
     onClick = () => {
-        if (this.state !== 'xxx')
-            sendMessage(this.state.rate, this.afterMessage)//, this)
+
+        const options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        };
+
+        if (this.state !== 'xxx') {
+            const mess = `[P][B]Курс доллара на ${new Date().toLocaleString("ru", options)} составляет ${this.state.rate} руб.[/B][/P]`
+            //sendMessage(this.state.rate, this.afterMessage)//, this)
+            sendToLenta(mess)
+        }
     }
 
     afterMessage(res) {   ///, ctx) {

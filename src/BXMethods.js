@@ -9,12 +9,17 @@ export const resizeWindow = (w, h) => {
 
 let arr = [];
 
+export const clearArray = () => {
+    console.log('ITS ARRAY!!! ', arr)
+    arr.length = 0
+}
+
 export const getAllInvoices = (startpos, startdate, enddate) => {
     let tkn = BX24.getAuth(); //вынести из функции
     let addr = 'https://its74.bitrix24.ru/rest/crm.invoice.list.json'
-    let req = `${addr}?auth=${tkn.access_token}${startpos ? '&start=' + startpos : ''}&FILTER[>DATE_BILL]=${startdate}&FILTER[<DATE_BILL]=${enddate}`
+    let req = `${addr}?auth=${tkn.access_token}${startpos ? '&start=' + startpos : ''}&FILTER[>DATE_BILL]=${startdate}&FILTER[<DATE_BILL]=${enddate}&timestamp=${new Date().getTime()}`
 
-console.log("REQ",req)
+    console.log("REQ", req)
 
     return axios.get(req)
         .then(response => {
@@ -30,6 +35,26 @@ console.log("REQ",req)
             console.log(err)
         })
 }
+
+
+
+export const sendToLenta = (mess) => {
+
+    let tkn = BX24.getAuth();
+    console.log("token ", tkn.access_token)
+    axios.post('https://its74.bitrix24.ru/rest/log.blogpost.add', {
+        auth: tkn.access_token,
+        POST_TITLE: "It's just test",
+        POST_MESSAGE: mess
+    })
+        .then(function (response) {
+            console.log('отправлено')
+        })
+        .catch(function (error) {
+            console.log('Correct fields ', error);
+        });
+}
+
 
 
 
