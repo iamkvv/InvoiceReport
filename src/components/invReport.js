@@ -102,7 +102,7 @@ class InvoiceReport extends Component {
             let invArr = [];
 
             var groupedResults = groupBy(response, function (result) {
-                return moment(result['DATE_BILL'], 'YYYY-MM-DD').startOf('month');
+                return moment(result['DATE_BILL'], 'YYYY-MM-DD').startOf('month'); //ПО какой дате лучше группировать???
             });
 
             console.log(groupedResults)//Группировка по месяцам
@@ -119,6 +119,7 @@ class InvoiceReport extends Component {
                         if (obj.PAYED === "Y")
                             return parseFloat(obj.PRICE)
                     }),
+
                     snopl: sumBy(groupedResults[prop], (obj) => {
                         if (obj.PAYED === "N")
                             return parseFloat(obj.PRICE)

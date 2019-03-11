@@ -7,12 +7,21 @@ export const resizeWindow = (w, h) => {
         })
 }
 
-let arr = [];
+let arr = []; // массив для возврата полученных счетов
 
 export const clearArray = () => {
-    console.log('ITS ARRAY!!! ', arr)
+    console.log('ITS OLD ARRAY!!! ', arr)
     arr.length = 0
 }
+
+/**
+ * рабочий запрос по компаниям
+ *https://its74.bitrix24.ru/rest/crm.company.list.json?auth=5aff855c00376534000046e100000162201c03f4f3258ec292845af72cbdb76d6075ad
+ *&filter[<ID]=120&filter[>ID]=100
+ *&SELECT[]=TITLE&SELECT[]=PHONE&SELECT[]=BANKING_DETAILS
+ *
+ */
+
 
 export const getAllInvoices = (startpos, startdate, enddate) => {
     let tkn = BX24.getAuth(); //вынести из функции
