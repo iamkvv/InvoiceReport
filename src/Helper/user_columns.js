@@ -1,4 +1,16 @@
 import React, { Component } from 'react'
+
+//столбцы для корневой таблицы по анализу счетов
+export const rootTableColumns = [
+    { title: 'Период', dataIndex: 'period', key: 'period' },
+    { title: '∑ оплаченных счетов', dataIndex: "оплачено ₽", key: "оплачено ₽" },
+    { title: '∑ не оплаченных счетов', dataIndex: "не оплачено ₽", key: "не оплачено ₽" },
+    { title: '∑ оплаченных - ∑ не оплаченных ', dataIndex: "deltasum", key: "не оплачено ₽" }
+]
+
+
+
+
 //структура столбцов для таблицы пользователей в отчете по Activities
 const columns = [
     {
@@ -21,4 +33,4 @@ const columns = [
     }
 ]
 
-export default columns
+//export default columns
