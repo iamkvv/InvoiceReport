@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 
 //столбцы для корневой таблицы по анализу счетов
 export const rootTableColumns = [
-    { title: 'Период', dataIndex: 'period', key: 'period' },
-    { title: '∑ оплаченных счетов', dataIndex: "оплачено ₽", key: "оплачено ₽" },
-    { title: '∑ не оплаченных счетов', dataIndex: "не оплачено ₽", key: "не оплачено ₽" },
-    { title: '∑ оплаченных - ∑ не оплаченных ', dataIndex: "deltasum", key: "не оплачено ₽" }
+    { title: 'Период', dataIndex: 'period', key: 'period', className: 'root-col-title' },
+    { title: 'Оплачено ₽', dataIndex: "оплачено ₽", key: "оплачено ₽", className: 'root-col-title' },
+    { title: 'Не оплачено ₽', dataIndex: "не оплачено ₽", key: "не оплачено ₽", className: 'root-col-title' },
+    { title: 'Оплачено - не оплачено ₽', dataIndex: "deltasum", key: "не оплачено ₽", className: 'root-col-title' },
+    { title: 'Всего счетов', dataIndex: "invcount", key: "invcount", className: 'root-col-title' }
 ]
 
 

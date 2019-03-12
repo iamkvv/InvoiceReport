@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Tabs, DatePicker, BackTop, Table, Icon } from 'antd';
+import { Tabs, DatePicker, BackTop, Table, Icon, Badge } from 'antd';
 
 import { getAllInvoices } from '../BXMethods'
 import { rootTableColumns } from '../Helper/user_columns'
@@ -26,34 +26,35 @@ class InvoiceReport extends Component {
         childtablesdata: [],
         isLoad: false
     }
-
-    columns = [{
-        title: 'Дата',
-        dataIndex: 'invdate',
-        key: 'invdate',
-    },
-    {
-        title: 'есть оплата',
-        dataIndex: 'есть',
-    },
-    {
-        title: 'нет оплаты',
-        dataIndex: 'нет',
-    },
-    {
-        title: 'Сумма оплаченных счетов',
-        dataIndex: 'sopl',
-    },
-    {
-        title: 'Сумма неоплаченных счетов',
-        dataIndex: 'snopl',
-    }
-    ]
+    prevMonthStart = moment(moment(new Date()).subtract(1, 'month').startOf('month'), "YYYY-MM-DD");
+    prevMonthEnd = moment(moment(new Date()).subtract(1, 'month').endOf('month'), "YYYY-MM-DD");
+    // columns = [{
+    //     title: 'Дата',
+    //     dataIndex: 'invdate',
+    //     key: 'invdate',
+    // },
+    // {
+    //     title: 'есть оплата',
+    //     dataIndex: 'есть',
+    // },
+    // {
+    //     title: 'нет оплаты',
+    //     dataIndex: 'нет',
+    // },
+    // {
+    //     title: 'Сумма оплаченных счетов',
+    //     dataIndex: 'sopl',
+    // },
+    // {
+    //     title: 'Сумма неоплаченных счетов',
+    //     dataIndex: 'snopl',
+    // }
+    // ]
 
     componentDidMount() {
         this.onChange(null,
-            [moment(new Date()).subtract(1, 'month').startOf('month').format('YYYY-MM-DD'),
-            moment(new Date()).subtract(1, 'month').endOf('month').format("YYYY-MM-DD")]
+            [this.prevMonthStart.format('YYYY-MM-DD'),
+            this.prevMonthEnd.format("YYYY-MM-DD")]
         )
     }
 
@@ -89,7 +90,8 @@ class InvoiceReport extends Component {
 
                 "оплачено ₽": opl, ///this.sumInvoicesByStatus(groupedResults[prop], "Y"),
                 "не оплачено ₽": nopl, ///this.sumInvoicesByStatus(groupedResults[prop], "N")
-                "deltasum": opl - nopl
+                "deltasum": opl - nopl,
+                "invcount": groupedResults[prop].length
 
 
                 // "не оплачено ₽": sumBy(groupedResults[prop], (obj) => {
@@ -103,15 +105,52 @@ class InvoiceReport extends Component {
 
     buildChildData = (key, data) => {
         let invarr = [];
+        const dataOptions = {
+            year: 'numeric',
+            month: '2-digit',
+            day: 'numeric',
+        }
         for (let i = 0; i < data.length; i++) {
             invarr.push(
-                Object.assign({}, { key: key, ID: data[i].ID, DATE_BILL: data[i].DATE_BILL, PRICE: data[i].PRICE })
+                Object.assign({}, {
+                    key: key,
+                    ID: data[i].ID,
+                    DATE_BILL: new Date(data[i].DATE_BILL).toLocaleString("ru", dataOptions),
+                    PRICE: data[i].PRICE,
+                    STATUS: data[i].STATUS_ID
+                })
             )
         }
         this.setState({ childtablesdata: this.state.childtablesdata.concat(invarr) })
     }
 
     getChildTable = () => {
+        const getStatus = (s) => {
+            switch (s) {
+                case "P":
+                    return "опл"//(<Badge status="success" text="опл" />)
+                    break;
+                case "A":
+                    return "подтв" //(<Badge status="processing" text="подтв" />)
+                    break;
+                case "D":
+                    return "откл"// (<Badge status="warning" text="откл" />)
+                    break;
+                case "Q":
+                    return "част"//(<Badge status="default" text="част" />)
+                    break;
+                case "N":
+                    return "черн" //(<Badge status="error" text="черн" />)
+                    break;
+                case "S":
+                    return "отпр"// (<Badge status="processing" text="отпр" />)
+                    break;
+
+                default:
+                    return s
+            }
+        }
+
         const columns = [
             {
                 title: "ID", dataIndex: "ID", render: text => <a href={"https://its74.bitrix24.ru/crm/invoice/show/" + text + "/"} target="_blank">{text}</a>
@@ -121,6 +160,23 @@ class InvoiceReport extends Component {
             },
             {
                 title: "Сумма", dataIndex: "PRICE", key: "PRICE"
+            },
+            {
+                title: "Статус",
+                dataIndex: "STATUS",
+                key: "STATUS",
+                render: (s) => { return getStatus(s) },
+                filters: [{
+                    text: 'отклонен',
+                    value: 'D',
+                }, {
+                    text: 'оплачен',
+                    value: 'P',
+                }],
+                onFilter: (value, record) => {
+                    console.log("STATUS", record, record.STATUS)
+                    return record.STATUS === value //.indexOf(value) === 0
+                },
             }
         ]
 
@@ -249,8 +305,7 @@ class InvoiceReport extends Component {
                         }}>
                             <p>Диапазон дат </p>
                             <RangePicker onChange={this.onChange}
-                                defaultValue={[moment(moment(new Date()).subtract(1, 'month').startOf('month'), "YYYY-MM-DD"),
-                                moment(moment(new Date()).subtract(1, 'month').endOf('month'), "YYYY-MM-DD")]}
+                                defaultValue={[this.prevMonthStart, this.prevMonthEnd]}
                                 style={{ textAlign: 'left', marginLeft: '20px' }}
                             />
                             <p>
